@@ -1,12 +1,12 @@
-# 📈 Analysis: Shipping Delays & Merchant Credit Risk
+# 📈 Merchant Fulfillment Analysis: Identifying the Delay Thresholds that Drive Disputes
 
 ## **Executive Summary**
-This project identifies the threshold at which merchant shipping delays become a financial liability. Using a synthetic dataset of 1,000 accounts to maintain data privacy, this analysis identified a critical threshold at the **15-day mark**, where customer disputes escalate sharply. These delays resulted in a **$126,000 loss** in a single month. The **Travel industry** was identified as the highest-risk sector, with a **73% dispute rate** during significant fulfillment lags.
+The goal of this project was to find the leak in the merchant platform, a steady drain that the current policy was missing. By digging into the data, I discovered that the business was flying blind with a one-size-fits-all approach that doesn't account for a major 15-day risk cliff. While most merchants remain stable for the first two weeks, disputes increase significantly the moment a delay hits day 15, especially in the Travel sector, where 73% of customers file disputes by day 25. To plug this hole, I have recommended that the business rework its blanket policy to trigger a 20% hold at the 15-day mark, and Day 12 for Travel, so we can stop these losses before they occur.
 
 ---
 
 ## **The Business Problem: Shipping Delays and Financial Risk**
-Fulfillment delays are a primary driver of customer disputes. Currently, the business applies a "one-size-fits-all" risk policy that does not account for how different industries manage shipping times. This creates significant **risk exposure**: without data-driven thresholds to flag slow shippers early, the current framework fails to trigger necessary interventions, leaving the platform to absorb the cost of disputes that could have been prevented.
+The business has been experiencing a steady drain on its cash flow due to customer disputes, but pinpointing the exact cause has been challenging. For a long time, the assumption was simply that 'delays happen,' so we relied on a blanket policy to manage everyone on the platform. The issue is that this one-size-fits-all approach isn't working; we're flying blind while the business loses money. This project was designed to find the leak in our fulfillment process and finally plug the hole.
 
 ---
 
@@ -25,18 +25,15 @@ Fulfillment delays are a primary driver of customer disputes. Currently, the bus
 ---
 
 ## **Methodology**
-SQL was utilized for data processing, and Tableau for trend visualization to identify danger zones:
+To determine where the losses were coming from, I started by looking at roughly 1,000 merchant accounts. Using SQL, I grouped these merchants into tiers, from those whose shipments were on time to those facing significant delays. Using CASE statements, I separated on-time shipments from delayed ones to compare their dispute rates.
 
-* **Segmentation:** Categorized merchants into speed tiers (Fast, Moderate, Slow, Extreme) to isolate the primary drivers of loss.
-* **Loss Quantification:** Calculated the total dollar value of disputes within each tier to identify the peak Risk Window.
-* **Industry Sensitivity Mapping:** Cross-referenced shipping speed with industry types to identify high-risk outliers like the Travel sector.
+Once the data was cleaned and grouped, I moved it to Tableau to visualize the trends. Rather than a steady increase, the heatmap showed a significant jump at Day 15. This is where the business's losses hit that $126,000 mark. It also revealed that the Travel sector was the biggest outlier; once fulfillment took longer than 25 days, nearly 73% of customers filed disputes.
 
 ---
 
-## **Technical Skills Demonstrated**
-* **SQL:** Advanced data aggregation and conditional logic (`CASE` statements) used to categorize merchants and calculate financial exposure.
-* **Tableau:** Developed interactive heatmaps and financial impact charts to translate raw data into executive insights.
-* **Risk Analytics:** Designed data-driven mitigation strategies to protect platform liquidity and cash flow.
+## **The Tools Used**
+* **SQL**  for grouping data and putting losses into tiers.
+* **Tableau**  for visualising the trend and heatmap analysis.
 
 ---
 
@@ -44,19 +41,23 @@ SQL was utilized for data processing, and Tableau for trend visualization to ide
 
 ### **1. Financial Impact of Delays**
 ![Financial Impact Chart](images/financial_impact_barchart.png)
-**The Insight:** Risk remains stable until Day 15. Beyond this point, the platform enters a **"Critical threshold"** where aggregate losses peak at **$126,000** for the 16–25 day tier.
+**The 15-Day Threshold:** Up until day 15, the dispute rates are manageable and stable. However, the moment a merchant enters the 16–25 day window, losses skyrocket, peaking at $126,000 that month.
 
 ### **2. Industry Sensitivity Analysis**
 ![Industry Heatmap](images/industry_risk_heatmap.png)
-**The Insight:** The Travel sector is the most fragile industry analyzed. At 25+ days of delay, nearly **73% of customers** file a formal dispute.
+**Travel Sector Outlier:** The data show that the Travel sector is very fragile over time. While customers in other industries might be more understanding of delays, 73% of Travel customers file a formal dispute the second that delay hits 25 days.
 
 ---
 
-## **Strategic Recommendations**
+## **Plugging the Hole (Recommendations)**
 
-* **Implement a Rolling Reserve "Safety Net":** For merchants with shipping averages between 16–25 days, the platform should automatically hold **20% of sales** in reserve. This secures funds to cover potential disputes and protects the company's cash flow.
-* **Establish Industry-Specific Guardrails:** Because the Travel sector is highly sensitive to latency, stricter thresholds are required. Initiating fund holds for Travel merchants at **Day 15** (rather than Day 25) directly addresses the identified 73% dispute risk.
-* **Deploy an Automated Early-Warning System:** An automated dashboard should notify the Risk Team the moment a merchant’s fulfillment time exceeds **15 days**. This shift allows for proactive intervention before emerging risks escalate into unrecoverable financial losses.
+* **The 15-Day Safety Net:** Since losses spike at the 15-day mark, our intervention needs to start there. For any merchant reaching this threshold, the platform should automatically hold 20% of their sales in reserve. This gives the business a buffer to cover potential losses from disputes before they hit the bottom line.
+* **Stricter policies for the Travel sector:** This is where the business sees its greatest losses. We should trigger a hold on funds for Travel merchants on Day 12. This proactive strategy allows us to get ahead of the 25-day risk cliff, where nearly three-quarters of customers file disputes.
+
+---
+
+## **Future Work: From Reactive to Proactive**
+While the immediate holds on funds will stop the current bleeder, the long-term goal should be to move toward Real-time Monitoring. Instead of reacting to losses after the month ends, the Risk Team needs a live view of fulfillment times. I recommend building an automated dashboard that flags merchants as they approach their sector's risk threshold (Day 12 for Travel, Day 15 for others). This would allow us to step in and resolve the issue before the financial damage is ever done.
 
 ---
 
